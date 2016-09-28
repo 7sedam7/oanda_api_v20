@@ -1,5 +1,3 @@
-require "oanda_api_v20/version"
+require 'oanda_api_v20/account'
 
-module OandaApiV20
-  # Your code goes here...
-end
+require 'oanda_api_v20/version'
