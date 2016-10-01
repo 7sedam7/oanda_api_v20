@@ -34,15 +34,28 @@ module OandaApiV20
                   :last_transaction_id,
                   :trades,
                   :positions,
-                  :orders,
+                  :orders
+
+    def initialize account_response
+      self.id       = account_response['id']
+      self.alias    = account_response['alias']
+      self.currency = account_response['currency']
+      self.balance  = account_response['balance']
+      self.nav      = account_response['NAV']
+    end
 
     def self.all
+      HttpClient.get('accounts').body['accounts'].map do |acc|
+        self.get acc['id']
+      end
     end
 
     def self.get(account_id)
+      Account.new HttpClient.get("accounts/#{account_id}").body['account']
     end
 
     def instruments
+      HttpClient.get("accounts/#{self.id}/instruments").body['instruments']
     end
 
     def instrument(instrument_name)
